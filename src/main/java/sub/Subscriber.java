@@ -6,6 +6,7 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import util.Constants;
 import util.JsonObjectDeserializer;
 
 import java.time.Duration;
@@ -30,6 +31,8 @@ public abstract class Subscriber implements Runnable{
         props.put(ConsumerConfig.CLIENT_ID_CONFIG, name);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonObjectDeserializer.class);
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, Constants.groupID);
+
 
         spiderCon = new KafkaConsumer<String, JsonObject>(props);
         spiderCon.subscribe(topics);
@@ -48,6 +51,10 @@ public abstract class Subscriber implements Runnable{
         }
 
         spiderCon.close();
+    }
+
+    public void stop(){
+        flag = true;
     }
 
     protected abstract void consume(ConsumerRecords<String, JsonObject> records);

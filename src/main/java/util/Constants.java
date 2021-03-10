@@ -20,5 +20,6 @@ public final class Constants {
     public final static String cofinsTopic = "cofins";
     public final static String icmsTopic = "icms";
     public final static String[] tributes = {"iptu","cofins","icms"};
+    public final static String groupID = "GROUP_ID";
 
 }
