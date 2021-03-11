@@ -10,6 +10,7 @@ import util.TributeSerializer;
 
 import java.util.Properties;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public abstract class Publisher implements Runnable{
 
@@ -35,9 +36,11 @@ public abstract class Publisher implements Runnable{
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, TributeSerializer.class);
         props.put(ProducerConfig.ACKS_CONFIG, "all");
         props.put(ProducerConfig.RETRIES_CONFIG, 0);
-        props.put(ProducerConfig.BATCH_SIZE_CONFIG, 16384);
-        props.put(ProducerConfig.LINGER_MS_CONFIG, 1);
+        props.put(ProducerConfig.BATCH_SIZE_CONFIG, 10000);
+        props.put(ProducerConfig.LINGER_MS_CONFIG, 10);
         props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 33554432);
+        props.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, Integer.MAX_VALUE);
+
 
         //customized configurations for any sort of publisher are added on constructor parameters
         spiderProd = new KafkaProducer<String, Tribute>(props);
@@ -47,12 +50,12 @@ public abstract class Publisher implements Runnable{
     public void run() {
         //wait and produce
         //the wait condition will be removed on production phase
-        /*Random r = new Random();
+        Random r = new Random();
         try{
             TimeUnit.SECONDS.sleep(r.nextInt(3)+1); //waits 1 to 3 seconds
         }catch (Exception e){
             e.printStackTrace();
-        }*/
+        }
 
         oneTribute = new Tribute();
         publish(mountTribute());

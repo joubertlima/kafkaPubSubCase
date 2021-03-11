@@ -27,7 +27,8 @@ public class PublisherCorrectCodeCOFINS extends Publisher{
 
     @Override
     protected void publish(Tribute tribute) {
-        ProducerRecord<String,Tribute> record = new ProducerRecord<String,Tribute>(topic, "CORRECT:" + Constants.customizedKeyTagCofins+ ":" + uniqueID, tribute);
+        Random r = new Random();
+        ProducerRecord<String,Tribute> record = new ProducerRecord<String,Tribute>(topic, r.nextInt(Constants.numPartitions), "CORRECT:" + Constants.customizedKeyTagCofins+ ":" + uniqueID, tribute);
         Future<RecordMetadata> ack = spiderProd.send(record);
         try {
             RecordMetadata metadata = ack.get();

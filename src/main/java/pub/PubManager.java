@@ -40,7 +40,7 @@ public class PubManager {
 
             count++;
 
-            if(count==1000) {
+            if(count==10) {
                 System.out.println("Submit another publisher? (Y|N)");
                 String resp = reader.next();
                 if(resp.equals("N")||resp.equals("n")) flag = true;

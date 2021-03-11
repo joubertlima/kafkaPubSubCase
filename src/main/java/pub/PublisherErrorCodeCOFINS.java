@@ -27,7 +27,8 @@ public class PublisherErrorCodeCOFINS extends Publisher{
 
     @Override
     protected void publish(Tribute tribute) {
-        ProducerRecord<String,Tribute> record = new ProducerRecord<String,Tribute>(topic, "ERROR:" + Constants.customizedKeyTagCofins+ ":" + uniqueID, tribute);
+        Random r = new Random();
+        ProducerRecord<String,Tribute> record = new ProducerRecord<String,Tribute>(topic, r.nextInt(Constants.numPartitions), "ERROR:" + Constants.customizedKeyTagCofins+ ":" + uniqueID, tribute);
         Future<RecordMetadata> ack = spiderProd.send(record);
         try {
             RecordMetadata metadata = ack.get();

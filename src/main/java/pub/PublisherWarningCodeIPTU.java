@@ -28,7 +28,8 @@ public class PublisherWarningCodeIPTU extends Publisher{
 
     @Override
     protected void publish(Tribute tribute) {
-        ProducerRecord<String,Tribute> record = new ProducerRecord<String,Tribute>(topic, "WARNING:" + Constants.customizedKeyTagIptu+ ":" + uniqueID, tribute);
+        Random r = new Random();
+        ProducerRecord<String,Tribute> record = new ProducerRecord<String,Tribute>(topic, r.nextInt(Constants.numPartitions), "WARNING:" + Constants.customizedKeyTagIptu+ ":" + uniqueID, tribute);
         Future<RecordMetadata> ack = spiderProd.send(record);
         try {
             RecordMetadata metadata = ack.get();
