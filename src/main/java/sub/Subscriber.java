@@ -8,6 +8,7 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import util.Constants;
 import util.Tribute;
 import util.TributeDeserializer;
+import util.TributeDeserializerJson;
 
 import java.time.Duration;
 import java.util.Collection;
@@ -31,7 +32,7 @@ public abstract class Subscriber implements Runnable{
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, url);
         props.put(ConsumerConfig.CLIENT_ID_CONFIG, name);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, TributeDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, TributeDeserializerJson.class);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, name);
         props.setProperty(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true");
         props.setProperty(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");

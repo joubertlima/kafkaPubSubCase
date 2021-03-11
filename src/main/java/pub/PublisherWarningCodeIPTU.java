@@ -30,9 +30,9 @@ public class PublisherWarningCodeIPTU extends Publisher{
     @Override
     protected void publish(Tribute tribute) {
         Random r = new Random();
-        ProducerRecord<String,Tribute> record = new ProducerRecord<String,Tribute>(topic, r.nextInt(Constants.numPartitions), "WARNING:" + Constants.customizedKeyTagIptu+ ":" + uniqueID, tribute);
-        Future<RecordMetadata> ack = spiderProd.send(record);
-        try {
+        try{
+            ProducerRecord<String,Tribute> record = new ProducerRecord<String,Tribute>(topic, r.nextInt(Constants.numPartitions), "WARNING:" + Constants.customizedKeyTagIptu+ ":" + uniqueID, tribute);
+            Future<RecordMetadata> ack = spiderProd.send(record);
             RecordMetadata metadata = ack.get();
             System.out.println("WARNING tribute produced: " + metadata.topic() + " | " + metadata.offset() + " | " + metadata.partition());
         }catch (Exception e){

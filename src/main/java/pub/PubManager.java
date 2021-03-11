@@ -16,7 +16,7 @@ public class PubManager {
     public PubManager(){
         uniqueID =0;
         flag = false;
-        threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
+        threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
         begin();
     }
 

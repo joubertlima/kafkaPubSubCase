@@ -6,7 +6,7 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import util.Constants;
 import util.Tribute;
-import util.TributeSerializer;
+import util.TributeSerializerJson;
 
 import java.util.Properties;
 import java.util.Random;
@@ -33,9 +33,9 @@ public abstract class Publisher implements Runnable{
 
         props.put(ProducerConfig.CLIENT_ID_CONFIG, name);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, TributeSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, TributeSerializerJson.class);
         props.put(ProducerConfig.ACKS_CONFIG, "all");
-        props.put(ProducerConfig.RETRIES_CONFIG, 0);
+        props.put(ProducerConfig.RETRIES_CONFIG, 1);
         props.put(ProducerConfig.BATCH_SIZE_CONFIG, 10000);
         props.put(ProducerConfig.LINGER_MS_CONFIG, 10);
         props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 33554432);
