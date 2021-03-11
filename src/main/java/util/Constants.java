@@ -15,7 +15,7 @@ public final class Constants {
     public final static String[] topics = {"iptu", "iptu", "iptu", "cofins", "cofins", "cofins", "icms", "icms", "icms"};
     public final static String[] pubNames = {"IPTU_error_pub", "IPTU_warning_pub", "IPTU_correct_pub", "COFINS_error_pub", "COFINS_warning_pub",
             "COFINS_correct_pub", "ICMS_error_pub", "ICMS_warning_pub", "ICMS_correct_pub"};
-    public final static String url = "http://34.68.96.79:9094";
+    public final static String url = "http://34.122.31.60:9094";
     public final static String iptuTopic = "iptu";
     public final static String cofinsTopic = "cofins";
     public final static String icmsTopic = "icms";

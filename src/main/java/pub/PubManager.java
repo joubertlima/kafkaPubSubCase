@@ -16,13 +16,15 @@ public class PubManager {
     public PubManager(){
         uniqueID =0;
         flag = false;
-        threadPool = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+        threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
         begin();
     }
 
     public void begin(){
         Random r = new Random();
         Scanner reader = new Scanner(System.in);
+
+        int count = 0;
 
         while (!flag){
             int seed = r.nextInt(Constants.publishers.length);
@@ -36,9 +38,14 @@ public class PubManager {
                 e.printStackTrace();
             }
 
-            System.out.println("Submit another publisher? (Y|N)");
-            String resp = reader.next();
-            if(resp.equals("N")||resp.equals("n")) flag = true;
+            count++;
+
+            if(count==1000) {
+                System.out.println("Submit another publisher? (Y|N)");
+                String resp = reader.next();
+                if(resp.equals("N")||resp.equals("n")) flag = true;
+                else count = 0;
+            }
 
         }
 

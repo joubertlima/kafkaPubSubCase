@@ -10,7 +10,6 @@ import util.TributeSerializer;
 
 import java.util.Properties;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public abstract class Publisher implements Runnable{
 
@@ -48,12 +47,12 @@ public abstract class Publisher implements Runnable{
     public void run() {
         //wait and produce
         //the wait condition will be removed on production phase
-        Random r = new Random();
+        /*Random r = new Random();
         try{
             TimeUnit.SECONDS.sleep(r.nextInt(3)+1); //waits 1 to 3 seconds
         }catch (Exception e){
             e.printStackTrace();
-        }
+        }*/
 
         oneTribute = new Tribute();
         publish(mountTribute());
