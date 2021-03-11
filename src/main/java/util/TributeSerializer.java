@@ -16,7 +16,7 @@ public class TributeSerializer implements Serializer<Tribute> {
         try {
             retVal = objectMapper.writeValueAsString(data).getBytes();
         } catch (IOException e) {
-            System.err.println("Problem on JsonObjectSerializer");
+            System.err.println("Problem on TributeSerializer");
             e.printStackTrace();
         }
 
