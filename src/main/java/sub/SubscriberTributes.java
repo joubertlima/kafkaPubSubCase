@@ -1,9 +1,9 @@
 package sub;
 
-import com.google.gson.JsonObject;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import util.Constants;
+import util.Tribute;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,27 +20,28 @@ public class SubscriberTributes extends Subscriber{
     }
 
     @Override
-    protected void consume(ConsumerRecords<String, JsonObject> records) {
-        for (ConsumerRecord<String, JsonObject> record : records) {
-            boolean b = false;
+    protected void consume(ConsumerRecords<String, Tribute> records) {
+        boolean b = false;
+        for (ConsumerRecord<String, Tribute> record : records) {
 
-            if(!record.value().get("type").equals("IPTU_ERROR") || !record.value().get("type").equals("COFINS_ERROR")
-                    ||!record.value().get("type").equals("ICMS_ERROR")){
+
+            if (!record.value().getType().equals("IPTU_ERROR") || !record.value().getType().equals("COFINS_ERROR")
+                    || !record.value().getType().equals("ICMS_ERROR")) {
                 String tribute = record.topic();
-                String value = record.value().get("tribute_value").getAsString();
+                int value = record.value().getTributeValue();
                 int tribute_value = tributes.get(tribute);
-                tribute_value += Integer.parseInt(value);
+                tribute_value += value;
                 tributes.put(tribute, tribute_value);
 
-                b =true;
+                b = true;
             }
+        }
 
-            if(b){
-                System.out.println("The current tribute values of all companies...");
+        if(b){
+                System.out.println("The current tribute values...");
                 for(String tribute:tributes.keySet())
                     System.out.print("Tribute: " + tribute + " tribute value: " + tributes.get(tribute) + " | ");
                 System.out.println();
-            }
 
         }
     }

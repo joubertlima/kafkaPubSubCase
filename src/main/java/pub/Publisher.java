@@ -1,11 +1,12 @@
 package pub;
 
-import com.google.gson.JsonObject;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
-import util.JsonObjectSerializer;
+import util.Constants;
+import util.Tribute;
+import util.TributeSerializer;
 
 import java.util.Properties;
 import java.util.Random;
@@ -13,9 +14,10 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class Publisher implements Runnable{
 
-    protected Producer<String, JsonObject> spiderProd;
+    protected Producer<String, Tribute> spiderProd;
     protected String topic;
     protected int uniqueID;
+    protected Tribute oneTribute;
 
     public Publisher(){
         
@@ -28,9 +30,10 @@ public abstract class Publisher implements Runnable{
 
         Properties props= new Properties();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, url);
+
         props.put(ProducerConfig.CLIENT_ID_CONFIG, name);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonObjectSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, TributeSerializer.class);
         props.put(ProducerConfig.ACKS_CONFIG, "all");
         props.put(ProducerConfig.RETRIES_CONFIG, 0);
         props.put(ProducerConfig.BATCH_SIZE_CONFIG, 16384);
@@ -38,7 +41,7 @@ public abstract class Publisher implements Runnable{
         props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 33554432);
 
         //customized configurations for any sort of publisher are added on constructor parameters
-        spiderProd = new KafkaProducer<String, JsonObject>(props);
+        spiderProd = new KafkaProducer<String, Tribute>(props);
     }
 
     @Override
@@ -52,16 +55,29 @@ public abstract class Publisher implements Runnable{
             e.printStackTrace();
         }
 
-        publish(mountJson());
+        oneTribute = new Tribute();
+        publish(mountTribute());
 
         spiderProd.close();
     }
 
-    //produce any sort of json
-    protected abstract JsonObject mountJson();
+    //mount the common part of a tribute
+    protected Tribute mountTribute(){
+        Random r = new Random();
+        int company = r.nextInt(Constants.companies.length);
 
-    //submit a json to any topic using any customized submission strategy
-    protected  abstract void publish(JsonObject json);
+        oneTribute.setCompany(Constants.companies[company]);
+        oneTribute.setDate(java.time.LocalDateTime.now().toString());
+        oneTribute.setJobID(r.nextInt(Integer.MAX_VALUE));
+        oneTribute.setCorrect_error_warning_code(r.nextInt(1000));
+        oneTribute.setJobReturnMessage("Message: " + r.nextInt(1000));
+        oneTribute.setTributeValue(r.nextInt());
+
+        return oneTribute;
+    }
+
+    //submit a tribute object (iptu, icms, cofins or any other) to any topic using any customized submission strategy
+    protected  abstract void publish(Tribute tribute);
 
 
 }

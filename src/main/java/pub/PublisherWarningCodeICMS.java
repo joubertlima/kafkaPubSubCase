@@ -1,9 +1,9 @@
 package pub;
 
-import com.google.gson.JsonObject;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import util.Constants;
+import util.Tribute;
 
 import java.util.Random;
 import java.util.concurrent.Future;
@@ -15,31 +15,23 @@ public class PublisherWarningCodeICMS extends Publisher{
     }
 
     @Override
-    protected JsonObject mountJson() {
+    protected Tribute mountTribute() {
         Random r = new Random();
         int city = r.nextInt(Constants.cities.length);
-        int company = r.nextInt(Constants.companies.length);
-        JsonObject json = new JsonObject();
-        json.addProperty("type", "ICMS_WARNING");
-        json.addProperty("title","ICMS of city" + Constants.cities[city]);
-        json.addProperty("spider", "spider ICMS - " + Constants.cities[city]);
-        json.addProperty("company", Constants.companies[company]);
-        json.addProperty("date", java.time.LocalDateTime.now().toString());
-        json.addProperty("job_id", r.nextInt(Integer.MAX_VALUE));//internal spider identification
-        json.addProperty("warning_code", r.nextInt(1000));
-        json.addProperty("warning_message", "Warning " + r.nextInt(1000));
-        json.addProperty("tribute_value", r.nextInt());
-        //any other json content is appended here...
-        return json;
+        oneTribute.setType("ICMS_WARNING");
+        oneTribute.setTitle("ICMS of city " + Constants.cities[city]);
+        oneTribute.setSpider("spider ICMS - " + Constants.cities[city]);
+
+        return super.mountTribute();
     }
 
     @Override
-    protected void publish(JsonObject json) {
-        ProducerRecord<String,JsonObject> record = new ProducerRecord<String,JsonObject>(topic, "WARNING:" + Constants.customizedKeyTagIcms+ ":" + uniqueID, json);
+    protected void publish(Tribute tribute) {
+        ProducerRecord<String,Tribute> record = new ProducerRecord<String,Tribute>(topic, "WARNING:" + Constants.customizedKeyTagIcms+ ":" + uniqueID, tribute);
         Future<RecordMetadata> ack = spiderProd.send(record);
         try {
             RecordMetadata metadata = ack.get();
-            System.out.println("WARNING json produced: " + metadata.topic() + " | " + metadata.offset() + " | " + metadata.partition());
+            System.out.println("WARNING tribute produced: " + metadata.topic() + " | " + metadata.offset() + " | " + metadata.partition());
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -3,6 +3,7 @@ package sub;
 import util.Constants;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Scanner;
 import java.util.concurrent.Executors;
@@ -13,7 +14,7 @@ public class SubManager {
     private ThreadPoolExecutor threadPool;
 
     public SubManager(){
-        threadPool = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+        threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
         begin();
     }
 
@@ -24,26 +25,13 @@ public class SubManager {
         Subscriber companies = new SubscriberCompanies();
         Subscriber tributes = new SubscriberTributes();
 
-        Collection<String> cofinsTopic = new ArrayList<>();
-        cofinsTopic.add(Constants.cofinsTopic);
 
-        Collection<String> iptuTopic = new ArrayList<>();
-        iptuTopic.add(Constants.iptuTopic);
+        cofins.configure("COFINS_sub",Constants.url, Arrays.asList(Constants.cofinsTopic));
+        icms.configure("ICMS_sub",Constants.url, Arrays.asList(Constants.icmsTopic));
+        iptu.configure("IPTU_sub",Constants.url, Arrays.asList(Constants.iptuTopic));
 
-        Collection<String> icmsTopic = new ArrayList<>();
-        icmsTopic.add(Constants.icmsTopic);
-
-        Collection<String> allTopics = new ArrayList<>();
-        allTopics.add(Constants.cofinsTopic);
-        allTopics.add(Constants.icmsTopic);
-        allTopics.add(Constants.iptuTopic);
-
-        cofins.configure("COFINS_sub",Constants.url, cofinsTopic);
-        icms.configure("ICMS_sub",Constants.url, icmsTopic);
-        iptu.configure("IPTU_sub",Constants.url, iptuTopic);
-
-        companies.configure("COMPANIES_sub", Constants.url, allTopics);
-        tributes.configure("TRIBUTES_sub", Constants.url, allTopics);
+        companies.configure("COMPANIES_sub", Constants.url, Arrays.asList(Constants.cofinsTopic, Constants.icmsTopic, Constants.iptuTopic));
+        tributes.configure("TRIBUTES_sub", Constants.url, Arrays.asList(Constants.cofinsTopic, Constants.icmsTopic, Constants.iptuTopic));
 
         threadPool.submit(cofins);
         threadPool.submit(iptu);
@@ -52,14 +40,15 @@ public class SubManager {
         threadPool.submit(tributes);
 
         Scanner reader = new Scanner(System.in);
-        System.out.println("Press any character to finish all subscribers....");
-
-        cofins.stop();
-        icms.stop();
-        iptu.stop();
-        companies.stop();
-        tributes.stop();
-        threadPool.shutdown();
+        String resp = reader.next();
+        if(resp.equals("exit")) {
+            cofins.stop();
+            icms.stop();
+            iptu.stop();
+            companies.stop();
+            tributes.stop();
+            threadPool.shutdown();
+        }
 
     }
 
