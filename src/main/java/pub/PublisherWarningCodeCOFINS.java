@@ -21,6 +21,7 @@ public class PublisherWarningCodeCOFINS extends Publisher{
         oneTribute.setType("COFINS_WARNING");
         oneTribute.setTitle("COFINS of city " + Constants.cities[city]);
         oneTribute.setSpider("spider COFINS - " + Constants.cities[city]);
+        oneTribute.setJobReturnMessage("Job Return Message: COFINS - CORRECT EXECUTION WITH WARNINGS");
 
         return super.mountTribute();
     }

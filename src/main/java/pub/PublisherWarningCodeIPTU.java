@@ -22,6 +22,7 @@ public class PublisherWarningCodeIPTU extends Publisher{
         oneTribute.setType("IPTU_WARNING");
         oneTribute.setTitle("IPTU of city " + Constants.cities[city]);
         oneTribute.setSpider("spider IPTU - " + Constants.cities[city]);
+        oneTribute.setJobReturnMessage("Job Return Message: IPTU - CORRECT EXECUTION WITH WARNINGS");
 
         return super.mountTribute();
     }

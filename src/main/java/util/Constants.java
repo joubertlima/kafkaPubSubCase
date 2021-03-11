@@ -22,5 +22,6 @@ public final class Constants {
     public final static String[] tributes = {"iptu","cofins","icms"};
     public final static String groupID = "eStracta_GROUP_ID";
     public final static int numPartitions = 3;
+    public final static int numPubMessages = 10;
 
 }

@@ -19,7 +19,6 @@ public abstract class Subscriber implements Runnable{
     protected Consumer<String, Tribute> spiderCon;
     protected Collection<String> topics;
     private AtomicBoolean flag;
-    private Properties props;
 
     public Subscriber(){
         flag = new AtomicBoolean(false);
@@ -27,7 +26,7 @@ public abstract class Subscriber implements Runnable{
 
     public void configure(String name, String url, Collection<String> topics){
         this.topics = topics;
-
+        Properties props;
         props= new Properties();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, url);
         props.put(ConsumerConfig.CLIENT_ID_CONFIG, name);

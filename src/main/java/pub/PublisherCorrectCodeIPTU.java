@@ -21,6 +21,7 @@ public class PublisherCorrectCodeIPTU extends Publisher{
         oneTribute.setType("IPTU_CORRECT");
         oneTribute.setTitle("IPTU of city " + Constants.cities[city]);
         oneTribute.setSpider("spider IPTU - " + Constants.cities[city]);
+        oneTribute.setJobReturnMessage("Job Return Message: IPTU - CORRECT EXECUTION");
 
         return super.mountTribute();
     }

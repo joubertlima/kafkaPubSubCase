@@ -21,6 +21,7 @@ public class PublisherWarningCodeICMS extends Publisher{
         oneTribute.setType("ICMS_WARNING");
         oneTribute.setTitle("ICMS of city " + Constants.cities[city]);
         oneTribute.setSpider("spider ICMS - " + Constants.cities[city]);
+        oneTribute.setJobReturnMessage("Job Return Message: ICMS - CORRECT EXECUTION WITH WARNINGS");
 
         return super.mountTribute();
     }

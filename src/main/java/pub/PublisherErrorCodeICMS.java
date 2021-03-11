@@ -21,6 +21,7 @@ public class PublisherErrorCodeICMS extends Publisher{
         oneTribute.setType("ICMS_ERROR");
         oneTribute.setTitle("ICMS of city " + Constants.cities[city]);
         oneTribute.setSpider("spider ICMS - " + Constants.cities[city]);
+        oneTribute.setJobReturnMessage("Job Return Message: ICMS - ERROR EXECUTION");
 
         return super.mountTribute();
     }

@@ -21,6 +21,7 @@ public class PublisherCorrectCodeICMS extends Publisher{
         oneTribute.setType("ICMS_CORRECT");
         oneTribute.setTitle("ICMS of city " + Constants.cities[city]);
         oneTribute.setSpider("spider ICMS - " + Constants.cities[city]);
+        oneTribute.setJobReturnMessage("Job Return Message: ICMS - CORRECT EXECUTION");
 
         return super.mountTribute();
     }

@@ -72,7 +72,6 @@ public abstract class Publisher implements Runnable{
         oneTribute.setDate(java.time.LocalDateTime.now().toString());
         oneTribute.setJobID(r.nextInt(Integer.MAX_VALUE));
         oneTribute.setCorrect_error_warning_code(r.nextInt(1000));
-        oneTribute.setJobReturnMessage("Message: " + r.nextInt(1000));
         oneTribute.setTributeValue(r.nextInt());
 
         return oneTribute;

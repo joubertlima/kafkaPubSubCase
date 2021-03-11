@@ -23,6 +23,7 @@ public class PublisherErrorCodeIPTU extends Publisher{
         oneTribute.setType("IPTU_ERROR");
         oneTribute.setTitle("IPTU of city " + Constants.cities[city]);
         oneTribute.setSpider("spider IPTU - " + Constants.cities[city]);
+        oneTribute.setJobReturnMessage("Job Return Message: IPTU - ERROR EXECUTION");
 
         return super.mountTribute();
     }

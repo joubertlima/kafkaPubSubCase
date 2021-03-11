@@ -21,6 +21,7 @@ public class PublisherErrorCodeCOFINS extends Publisher{
         oneTribute.setType("COFINS_ERROR");
         oneTribute.setTitle("COFINS of city " + Constants.cities[city]);
         oneTribute.setSpider("spider COFINS - " + Constants.cities[city]);
+        oneTribute.setJobReturnMessage("Job Return Message: COFINS - ERROR EXECUTION");
 
         return super.mountTribute();
     }
