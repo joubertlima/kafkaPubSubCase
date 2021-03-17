@@ -1,19 +1,18 @@
 package sub;
 
+import java.time.Duration;
+import java.util.Collection;
+import java.util.Properties;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import util.Constants;
-import util.Tribute;
-import util.TributeDeserializer;
-import util.TributeDeserializerJson;
 
-import java.time.Duration;
-import java.util.Collection;
-import java.util.Properties;
-import java.util.concurrent.atomic.AtomicBoolean;
+import util.Tribute;
+import util.TributeDeserializerJson;
 
 public abstract class Subscriber implements Runnable{
 

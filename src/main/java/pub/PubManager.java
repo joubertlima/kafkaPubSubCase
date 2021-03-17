@@ -22,7 +22,8 @@ public class PubManager {
 
     public void begin(){
         Random r = new Random();
-        Scanner reader = new Scanner(System.in);
+        @SuppressWarnings("resource")
+		Scanner reader = new Scanner(System.in);
 
         int count = 0;
 
