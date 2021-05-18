@@ -16,13 +16,13 @@ public final class Constants {
     public final static String[] topics = {"iptu", "iptu", "iptu", "cofins", "cofins", "cofins", "icms", "icms", "icms"};
     public final static String[] pubNames = {"IPTU_error_pub", "IPTU_warning_pub", "IPTU_correct_pub", "COFINS_error_pub", "COFINS_warning_pub",
             "COFINS_correct_pub", "ICMS_error_pub", "ICMS_warning_pub", "ICMS_correct_pub"};
-    public final static String url = "http://kafka1.estracta.com:9094";
+    public final static String url = "pkc-ep9mm.us-east-2.aws.confluent.cloud:9092";
     public final static String iptuTopic = "iptu";
     public final static String cofinsTopic = "cofins";
     public final static String icmsTopic = "icms";
     public final static String[] tributes = {"iptu","cofins","icms"};
     public final static String groupID = "eStracta_GROUP_ID";
-    public final static int numPartitions = 10;
+    public final static int numPartitions = 2;
     public final static int numPubMessages = 80;
 
 }

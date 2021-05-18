@@ -1,10 +1,13 @@
 package pub;
 
+import org.apache.kafka.clients.KafkaClient;
+import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import util.Constants;
+import util.LoadProperties;
 import util.Tribute;
 import util.TributeSerializerJson;
 
@@ -28,13 +31,14 @@ public abstract class Publisher implements Runnable{
         this.topic = topic;
         this.uniqueID = uniqueID;
 
-        Properties props= new Properties();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, url);
+        Properties props= LoadProperties.loadConfig("client.config");
+        if( props == null) props = new Properties();
+        //props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, url);
 
         props.put(ProducerConfig.CLIENT_ID_CONFIG, name);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, TributeSerializerJson.class);
-        props.put(ProducerConfig.ACKS_CONFIG, "all");
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, io.confluent.kafka.serializers.KafkaJsonSerializer.class);
+        //props.put(ProducerConfig.ACKS_CONFIG, "all");
         props.put(ProducerConfig.RETRIES_CONFIG, 1);
         props.put(ProducerConfig.BATCH_SIZE_CONFIG, 10000);
         props.put(ProducerConfig.LINGER_MS_CONFIG, 10);
@@ -42,8 +46,10 @@ public abstract class Publisher implements Runnable{
         props.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, Integer.MAX_VALUE);
 
 
+
         //customized configurations for any sort of publisher are added on constructor parameters
         spiderProd = new KafkaProducer<String, Tribute>(props);
+
     }
 
     @Override

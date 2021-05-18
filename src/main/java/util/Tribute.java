@@ -87,4 +87,9 @@ public class Tribute {
     public void setTributeValue(int tributeValue) {
         this.tributeValue = tributeValue;
     }
+
+    @Override
+    public String toString(){
+        return new com.google.gson.Gson().toJson(this);
+    }
 }

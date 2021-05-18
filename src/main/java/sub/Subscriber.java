@@ -5,12 +5,14 @@ import java.util.Collection;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import io.confluent.kafka.serializers.KafkaJsonDeserializerConfig;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
+import util.LoadProperties;
 import util.Tribute;
 import util.TributeDeserializerJson;
 
@@ -27,14 +29,16 @@ public abstract class Subscriber implements Runnable{
     public void configure(String name, String url, Collection<String> topics){
         this.topics = topics;
         Properties props;
-        props= new Properties();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, url);
+        props= LoadProperties.loadConfig("client.config");
+        //props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, url);
         props.put(ConsumerConfig.CLIENT_ID_CONFIG, name);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, TributeDeserializerJson.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, io.confluent.kafka.serializers.KafkaJsonDeserializer.class);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, name);
         props.setProperty(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true");
         props.setProperty(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
+        props.put(KafkaJsonDeserializerConfig.JSON_VALUE_TYPE, Tribute.class);
+        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
         spiderCon = new KafkaConsumer<String, Tribute>(props);
         spiderCon.subscribe(topics);
