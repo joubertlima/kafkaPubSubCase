@@ -26,7 +26,7 @@ public abstract class Publisher implements Runnable{
         
     }
 
-    public void configure(String name, String url, String topic, int uniqueID){
+    public void configure(String name, String topic, int uniqueID){
 
         this.topic = topic;
         this.uniqueID = uniqueID;

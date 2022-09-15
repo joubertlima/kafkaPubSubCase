@@ -24,12 +24,12 @@ public class SubManager {
         Subscriber tributes = new SubscriberTributes();
 
 
-        cofins.configure("COFINS_sub",Constants.url, Arrays.asList(Constants.cofinsTopic));
-        icms.configure("ICMS_sub",Constants.url, Arrays.asList(Constants.icmsTopic));
-        iptu.configure("IPTU_sub",Constants.url, Arrays.asList(Constants.iptuTopic));
+        cofins.configure("COFINS_sub", Arrays.asList(Constants.cofinsTopic));
+        icms.configure("ICMS_sub", Arrays.asList(Constants.icmsTopic));
+        iptu.configure("IPTU_sub", Arrays.asList(Constants.iptuTopic));
 
-        companies.configure("COMPANIES_sub", Constants.url, Arrays.asList(Constants.cofinsTopic, Constants.icmsTopic, Constants.iptuTopic));
-        tributes.configure("TRIBUTES_sub", Constants.url, Arrays.asList(Constants.cofinsTopic, Constants.icmsTopic, Constants.iptuTopic));
+        companies.configure("COMPANIES_sub", Arrays.asList(Constants.cofinsTopic, Constants.icmsTopic, Constants.iptuTopic));
+        tributes.configure("TRIBUTES_sub", Arrays.asList(Constants.cofinsTopic, Constants.icmsTopic, Constants.iptuTopic));
 
         threadPool.submit(cofins);
         threadPool.submit(iptu);

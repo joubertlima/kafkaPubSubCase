@@ -33,7 +33,7 @@ public class PubManager {
 
             try {
                 Publisher pub = (Publisher) Constants.publishers[seed].newInstance();
-                pub.configure(Constants.pubNames[seed], Constants.url, Constants.topics[seed], uniqueID);
+                pub.configure(Constants.pubNames[seed], Constants.topics[seed], uniqueID);
                 threadPool.submit(pub);
             } catch (Exception e) {
                 e.printStackTrace();

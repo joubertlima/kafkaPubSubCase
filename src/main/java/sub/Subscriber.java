@@ -26,7 +26,7 @@ public abstract class Subscriber implements Runnable{
         flag = new AtomicBoolean(false);
     }
 
-    public void configure(String name, String url, Collection<String> topics){
+    public void configure(String name, Collection<String> topics){
         this.topics = topics;
         Properties props;
         props= LoadProperties.loadConfig("client.config");
