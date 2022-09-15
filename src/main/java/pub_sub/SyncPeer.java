@@ -35,7 +35,7 @@ public class SyncPeer {
 		try{
 			user = args[0];
 		}catch (Exception e){
-			user = "default";
+			user = "maria";
 		}
 		new SyncPeer();
 	}

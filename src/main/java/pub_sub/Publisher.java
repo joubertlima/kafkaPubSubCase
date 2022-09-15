@@ -105,7 +105,7 @@ public class Publisher extends Thread{
     	Random r = new Random();
     	
     	try {
-            ProducerRecord<String,Message> record = new ProducerRecord<String,Message>(topic, r.nextInt(Constants.numPartitions), message.getContent(), message);
+            ProducerRecord<String,Message> record = new ProducerRecord<String,Message>(topic, r.nextInt(3), message.getContent(), message);
             Future<RecordMetadata> ack = syncProd.send(record);
 
             RecordMetadata metadata = ack.get();

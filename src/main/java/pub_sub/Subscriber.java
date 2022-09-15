@@ -77,20 +77,21 @@ public class Subscriber extends Thread{
     		messages.add(record.value());
     	
     	for(Message msg:messages){
-			if(msg.getContent().contains(user) && msg.getContent().contains("acquire")){
+			//if(msg.getContent().contains(user) && msg.getContent().contains("acquire")){
 				String[] splitedMsg = msg.getContent().split(":");
 				numAcquires = Integer.parseInt(splitedMsg[2]);
 				if(numAcquires>count){
 					canPub.set(false);
 					count++;
 					System.out.println("Consumed..." + msg.getContent());
+					//sleep indicando que usei o recurso
 					Publisher producer = new Publisher();
 					producer.configure(canPub, user, topics.iterator().next());
 					
 					producer.publish(producer.mountMessageRel(count));
 					producer.close();
 				}
-			}    		
+			//}    		
     	}
     }
 }
