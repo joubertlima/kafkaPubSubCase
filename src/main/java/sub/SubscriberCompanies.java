@@ -1,9 +1,9 @@
 package sub;
 
-import com.google.gson.JsonObject;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import util.Constants;
+import util.Tribute;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,16 +20,16 @@ public class SubscriberCompanies extends Subscriber {
     }
 
     @Override
-    protected void consume(ConsumerRecords<String, JsonObject> records) {
-        for (ConsumerRecord<String, JsonObject> record : records) {
+    protected void consume(ConsumerRecords<String, Tribute> records) {
+        for (ConsumerRecord<String, Tribute> record : records) {
             boolean b = false;
 
-            if(!record.value().get("type").equals("IPTU_ERROR") || !record.value().get("type").equals("COFINS_ERROR")
-            ||!record.value().get("type").equals("ICMS_ERROR")){
-                String company = record.value().get("company").getAsString();
-                String value = record.value().get("tribute_value").getAsString();
+            if(!record.value().getType().equals("IPTU_ERROR") || !record.value().getType().equals("COFINS_ERROR")
+            ||!record.value().getType().equals("ICMS_ERROR")){
+                String company = record.value().getCompany();
+                int value = record.value().getTributeValue();
                 int tribute_value = companies.get(company);
-                tribute_value += Integer.parseInt(value);
+                tribute_value += value;
                 companies.put(company, tribute_value);
 
                 b =true;

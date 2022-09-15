@@ -1,9 +1,9 @@
 package pub;
 
-import com.google.gson.JsonObject;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import util.Constants;
+import util.Tribute;
 
 import java.util.Random;
 import java.util.concurrent.Future;
@@ -15,31 +15,25 @@ public class PublisherErrorCodeCOFINS extends Publisher{
     }
 
     @Override
-    protected JsonObject mountJson() {
+    protected Tribute mountTribute() {
         Random r = new Random();
         int city = r.nextInt(Constants.cities.length);
-        int company = r.nextInt(Constants.companies.length);
-        JsonObject json = new JsonObject();
-        json.addProperty("type", "COFINS_ERROR");
-        json.addProperty("title","COFINS of city" + Constants.cities[city]);
-        json.addProperty("spider", "spider COFINS - " + Constants.cities[city]);
-        json.addProperty("company", Constants.companies[company]);
-        json.addProperty("date", java.time.LocalDateTime.now().toString());
-        json.addProperty("job_id", r.nextInt(Integer.MAX_VALUE));//internal spider identification
-        json.addProperty("error_code", r.nextInt(1000));
-        json.addProperty("error_message", "Error " + r.nextInt(1000));
-        //any other json content is appended here...
-        return json;
+        oneTribute.setType("COFINS_ERROR");
+        oneTribute.setTitle("COFINS of city " + Constants.cities[city]);
+        oneTribute.setSpider("spider COFINS - " + Constants.cities[city]);
+        oneTribute.setJobReturnMessage("Job Return Message: COFINS - ERROR EXECUTION");
+
+        return super.mountTribute();
     }
 
     @Override
-    protected void publish(JsonObject json) {
-
-        ProducerRecord<String,JsonObject> record = new ProducerRecord<String,JsonObject>(topic, "ERROR:" + Constants.customizedKeyTagCofins+ ":" + uniqueID, json);
-        Future<RecordMetadata> ack = spiderProd.send(record);
-        try {
+    protected void publish(Tribute tribute) {
+        Random r = new Random();
+        try{
+            ProducerRecord<String,Tribute> record = new ProducerRecord<String,Tribute>(topic, r.nextInt(Constants.numPartitions), "ERROR:" + Constants.customizedKeyTagCofins+ ":" + uniqueID, tribute);
+            Future<RecordMetadata> ack = spiderProd.send(record);
             RecordMetadata metadata = ack.get();
-            System.out.println("ERROR json produced: " + metadata.topic() + " | " + metadata.offset() + " | " + metadata.partition());
+            System.out.println("ERROR tribute produced: " + metadata.topic() + " | " + metadata.offset() + " | " + metadata.partition());
         }catch (Exception e){
             e.printStackTrace();
         }

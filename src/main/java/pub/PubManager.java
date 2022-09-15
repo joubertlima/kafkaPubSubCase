@@ -16,13 +16,16 @@ public class PubManager {
     public PubManager(){
         uniqueID =0;
         flag = false;
-        threadPool = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+        threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
         begin();
     }
 
     public void begin(){
         Random r = new Random();
-        Scanner reader = new Scanner(System.in);
+        @SuppressWarnings("resource")
+		Scanner reader = new Scanner(System.in);
+
+        int count = 0;
 
         while (!flag){
             int seed = r.nextInt(Constants.publishers.length);
@@ -30,15 +33,20 @@ public class PubManager {
 
             try {
                 Publisher pub = (Publisher) Constants.publishers[seed].newInstance();
-                pub.configure(Constants.pubNames[seed], Constants.url, Constants.topics[seed], uniqueID);
+                pub.configure(Constants.pubNames[seed], Constants.topics[seed], uniqueID);
                 threadPool.submit(pub);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            System.out.println("Submit another publisher? (Y|N)");
-            String resp = reader.next();
-            if(resp.equals("N")||resp.equals("n")) flag = true;
+            count++;
+
+            if(count==Constants.numPubMessages) {
+                System.out.println("Submit another publisher? (Y|N)");
+                String resp = reader.next();
+                if(resp.equals("N")||resp.equals("n")) flag = true;
+                else count = 0;
+            }
 
         }
 
